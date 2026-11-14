@@ -1,0 +1,20 @@
+{
+    "name": "Example Hitsound Name",
+    "hit_default": [
+        "Example Hitsound/Hit 1.wav",
+        "Example Hitsound/Hit 2.wav"
+    ],
+    "hit_hold": [
+        "Example Hitsound/Hit.wav"
+    ],
+    "hit_during_hold": [
+        "Example Hitsound/Hit.wav"
+    ],
+    "hold_loop": [],
+    "dodge": [
+        "silent"
+    ],
+    "miss": [
+        "Miss.wav"
+    ]
+}
