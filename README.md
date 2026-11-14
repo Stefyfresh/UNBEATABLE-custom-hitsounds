@@ -76,6 +76,38 @@ This is the sound that is used when you miss a note.
 
 Because you can set the same path for multiple different hitsound configuration files, this allows you to reuse sounds between different configurations (like setting a custom miss sound for all the different hitsounds!)
 
+## BepInEx Configuration
+
+### Hitsound Mode
+
+Normal, MissCutoff, Cutoff
+
+Sets the way that the sounds should function when there is more than one sound playing.
+Normal will play overlapping sounds, Miss Cutoff will only allow one playing miss sound at once, and Cutoff will only allow one playing sound per type.
+Cutoff mode excludes hold loops.
+
+### Change Pitch With Speed
+
+Boolean
+
+Changes the sound pitch depending on the speed of the game. This includes pausing sounds when the game is paused.
+Hold loops will always have this enabled to prevent looping in the pause menu.
+
+### Assist Mode Custom Hitsound
+
+String
+
+Sets the custom hitsound that should automatically be enabled when assist mode is used. Leave blank to disable this feature.
+An invalid name will be treated as disabled. The name is case sensitive.
+
+### Require ASIO For Hitsounds
+
+Boolean
+
+Disables hitsounds when ASIO is disabled in the main UNBEATABLE audio settings. 
+This allows you to only activate hitsounds if you are using low latency ASIO mode and not when you are using regular WASAPI.
+This setting does not affect assist mode.
+
 ## Mod Installation Instructions
 
 For installation instructions, refer to my mod installation guide here:
