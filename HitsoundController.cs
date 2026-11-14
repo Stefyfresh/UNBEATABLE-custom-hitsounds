@@ -354,7 +354,7 @@ namespace CustomHitSounds
                         else
                         {
                             // Add to list
-                            RuntimeManager.CoreSystem.createSound(fullPath, soundCreationMode | (loop ? MODE.LOOP_NORMAL : MODE.DEFAULT), out Sound sound);
+                            RuntimeManager.CoreSystem.createSound(fullPath, soundCreationMode | (loop ? MODE.LOOP_NORMAL : MODE.LOOP_OFF), out Sound sound);
 
                             // Set looping
                             if (loop)
@@ -362,6 +362,10 @@ namespace CustomHitSounds
                                 sound.getLength(out uint numSamples, TIMEUNIT.PCM);
                                 sound.setLoopPoints(0, TIMEUNIT.PCM, numSamples - 1, TIMEUNIT.PCM);
                                 sound.setLoopCount(-1);
+                            }
+                            else
+                            {
+                                sound.setLoopCount(0);
                             }
 
                             createdSounds.Add(sound);
