@@ -34,6 +34,7 @@ namespace CustomHitSounds
         public static List<Sound> dodgeSounds = [];
         public static List<Sound> missSounds = [];
         public static Dictionary<Height, Channel> activeHoldLoops = [];
+        public static List<Channel> activeHoldHitSounds = [];
 
         // Other
         public static Dictionary<string, HitsoundConfig> configs = [];
@@ -81,17 +82,25 @@ namespace CustomHitSounds
             holdLoopGroup.setPaused(timeScale == 0);
 
 
+            // Clear inactive hold hit sounds
+            activeHoldHitSounds.RemoveAll(channel => channel.isPlaying(out bool playing) == RESULT.ERR_INVALID_HANDLE || !playing);
+
+
             // Stop hold loops when necessary
-            if (timeScale != 0 && activeHoldLoops.ContainsKey(Height.Low) && !controller.player.heldLow && !controller.player.assist.heldLow)
+            if (timeScale != 0 && activeHoldLoops.TryGetValue(Height.Low, out Channel lowHold) && !controller.player.heldLow && !controller.player.assist.heldLow)
             {
-                activeHoldLoops[Height.Low].stop();
+                lowHold.stop();
+                lowHold.clearHandle();
                 activeHoldLoops.Remove(Height.Low);
+                activeHoldHitSounds.ForEach(channel => channel.stop());
             }
 
-            if (timeScale != 0 && activeHoldLoops.ContainsKey(Height.Top) && !controller.player.heldTop && !controller.player.assist.heldTop)
+            if (timeScale != 0 && activeHoldLoops.TryGetValue(Height.Top, out Channel topHold) && !controller.player.heldTop && !controller.player.assist.heldTop)
             {
-                activeHoldLoops[Height.Top].stop();
+                topHold.stop();
+                topHold.clearHandle();
                 activeHoldLoops.Remove(Height.Top);
+                activeHoldHitSounds.ForEach(channel => channel.stop());
             }
         }
 
@@ -255,7 +264,8 @@ namespace CustomHitSounds
             if (usingCustomHitsounds)
             {
                 if (CustomHitSounds.hitsoundMode.Value == HitsoundMode.Cutoff) hitGroup.stop();
-                PlaySoundInternal(ref holdHitSounds, hitGroup, out _);
+                PlaySoundInternal(ref holdHitSounds, hitGroup, out Channel holdHit);
+                activeHoldHitSounds.Add(holdHit);
             }
         }
 
@@ -293,7 +303,7 @@ namespace CustomHitSounds
                 if (!activeHoldLoops.ContainsKey(height))
                 {
                     PlaySoundInternal(ref holdLoops, holdLoopGroup, out Channel holdLoop);
-                    activeHoldLoops.Add(height, holdLoop);
+                    activeHoldLoops.TryAdd(height, holdLoop);
                 }
             }
         }

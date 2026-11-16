@@ -25,7 +25,7 @@ namespace CustomHitSounds
     {
         public const string PLUGIN_GUID = "com.stefyfresh.CustomHitSounds";
         public const string PLUGIN_NAME = "Custom Hit Sounds";
-        public const string PLUGIN_VERSION = "1.1.0";
+        public const string PLUGIN_VERSION = "1.1.1";
         internal static new ManualLogSource Logger;
         public static RhythmTracker sfxTracker;
         public static string hitsoundFolder;
