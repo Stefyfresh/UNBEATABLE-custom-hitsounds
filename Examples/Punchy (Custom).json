@@ -1,0 +1,21 @@
+{
+    "name": "Punchy (Custom)",
+    "hit": [
+        "Punchy/Punchy.wav"
+    ],
+    "hit_hold": [
+        "Punchy/Punchy Hold.wav"
+    ],
+    "hit_during_hold": [
+        "Punchy/Punchy Alternate.wav"
+    ],
+    "hold_loop": [
+        "Punchy/Punchy Hold Loop.wav"
+    ],
+    "dodge": [
+        "Dodge.wav"
+    ],
+    "miss": [
+        "Miss.wav"
+    ]
+}

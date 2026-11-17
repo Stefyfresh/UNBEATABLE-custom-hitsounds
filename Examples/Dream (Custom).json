@@ -1,0 +1,30 @@
+{
+    "name": "Dream (Custom)",
+    "hit": [
+        "Dream/Dream Ab.wav",
+        "Dream/Dream Db.wav",
+        "Dream/Dream Eb.wav",
+        "Dream/Dream Gb.wav"
+    ],
+    "hit_hold": [
+        "Dream/Dream Ab.wav",
+        "Dream/Dream Db.wav",
+        "Dream/Dream Eb.wav",
+        "Dream/Dream Gb.wav"
+    ],
+    "hit_during_hold": [
+        "Dream/Dream Ab.wav",
+        "Dream/Dream Db.wav",
+        "Dream/Dream Eb.wav",
+        "Dream/Dream Gb.wav"
+    ],
+    "hold_loop": [
+        "Dream/Dream Hold Loop.wav"
+    ],
+    "dodge": [
+        "Dodge.wav"
+    ],
+    "miss": [
+        "Miss.wav"
+    ]
+}

@@ -1,0 +1,21 @@
+{
+    "name": "Tambourine (Custom)",
+    "hit": [
+        "Tambourine/Tambourine.wav"
+    ],
+    "hit_hold": [
+        "Tambourine/Tambourine.wav"
+    ],
+    "hit_during_hold": [
+        "Tambourine/Tambourine.wav"
+    ],
+    "hold_loop": [
+        "Tambourine/Tambourine Hold Loop.wav"
+    ],
+    "dodge": [
+        "Tambourine/Tambourine.wav"
+    ],
+    "miss": [
+        "Miss.wav"
+    ]
+}
