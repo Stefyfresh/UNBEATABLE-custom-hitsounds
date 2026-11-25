@@ -43,6 +43,7 @@ namespace CustomHitSounds
         public static System.Random rng;
 
         public static bool usingCustomHitsounds;
+        public static bool usingCustomMissSounds;
 
         public static string[] hitsoundOptions;
 
@@ -115,31 +116,30 @@ namespace CustomHitSounds
 
                 if (!RuntimeManager.IsInitialized) return;
 
-                // Assist mode custom hitsound
-                if (FileStorage.beatmapOptions.useAssistMode && !CustomHitSounds.assistHitsound.Value.IsNullOrWhiteSpace() && configs.TryGetValue(CustomHitSounds.assistHitsound.Value.Trim(), out HitsoundConfig currentConfig))
-                {
-                    LoadAndCreateHitsoundList(currentConfig.dodge, ref dodgeSounds);
-                    LoadAndCreateHitsoundList(currentConfig.hit, ref hitSounds);
-                    LoadAndCreateHitsoundList(currentConfig.hit_during_hold, ref hitDuringHoldSounds);
-                    LoadAndCreateHitsoundList(currentConfig.hit_hold, ref holdHitSounds);
-                    LoadAndCreateHitsoundList(currentConfig.hold_loop, ref holdLoops, true);
-                    LoadAndCreateHitsoundList(currentConfig.miss, ref missSounds);
+                string currentConfigName = string.Empty;
 
-                    usingCustomHitsounds = true;
-                    sfxGroup.setPaused(false);
-                }
+                bool forcedCustomMiss = false;
+                HitsoundConfig missConfig = null;
+                if (CustomHitSounds.missConfig.Value != string.Empty && configs.TryGetValue(CustomHitSounds.missConfig.Value.ToUpper(), out missConfig) && missConfig != null) forcedCustomMiss = true;
+
+                // Assist mode custom hitsound
+                if (FileStorage.beatmapOptions.useAssistMode && !CustomHitSounds.assistHitsound.Value.IsNullOrWhiteSpace()) currentConfigName = CustomHitSounds.assistHitsound.Value.Trim();
 
                 // Normal custom hitsound
-                else if (!inGameHitsounds.Contains(CustomHitSounds.currentHitsound.Value) && configs.TryGetValue(CustomHitSounds.currentHitsound.Value, out currentConfig) && (!CustomHitSounds.hitsoundsNeedASIO.Value || FileStorage.options.useASIO))
+                else if (!inGameHitsounds.Contains(CustomHitSounds.currentHitsound.Value) && (!CustomHitSounds.hitsoundsNeedASIO.Value || FileStorage.options.useASIO)) currentConfigName = CustomHitSounds.currentHitsound.Value;
+
+                // Get config
+                if (configs.TryGetValue(currentConfigName.ToUpper(), out HitsoundConfig currentConfig))
                 {
                     LoadAndCreateHitsoundList(currentConfig.dodge, ref dodgeSounds);
                     LoadAndCreateHitsoundList(currentConfig.hit, ref hitSounds);
                     LoadAndCreateHitsoundList(currentConfig.hit_during_hold, ref hitDuringHoldSounds);
                     LoadAndCreateHitsoundList(currentConfig.hit_hold, ref holdHitSounds);
                     LoadAndCreateHitsoundList(currentConfig.hold_loop, ref holdLoops, true);
-                    LoadAndCreateHitsoundList(currentConfig.miss, ref missSounds);
+                    LoadAndCreateHitsoundList(forcedCustomMiss ? missConfig.miss : currentConfig.miss, ref missSounds);
 
                     usingCustomHitsounds = true;
+                    usingCustomMissSounds = true;
                     sfxGroup.setPaused(false);
 
                     // Set FMOD parameter just in case
@@ -147,8 +147,19 @@ namespace CustomHitSounds
                 }
                 else
                 {
+                    if (forcedCustomMiss)
+                    {
+                        // Custom miss sounds
+                        LoadAndCreateHitsoundList(missConfig.miss, ref missSounds);
+                        usingCustomMissSounds = true;
+                        sfxGroup.setPaused(false);
+                    }
+                    else
+                    {
+                        usingCustomMissSounds = false;
+                        sfxGroup.setPaused(true);
+                    }
                     usingCustomHitsounds = false;
-                    sfxGroup.setPaused(true);
                 }
             }
             catch (Exception ex)
@@ -211,7 +222,7 @@ namespace CustomHitSounds
                     config.miss ??= [];
 
                     // Add to config files
-                    configs.Add(config.name, config);
+                    configs.Add(config.name.ToUpper(), config);
                 }
                 catch (Exception ex)
                 {
@@ -292,7 +303,7 @@ namespace CustomHitSounds
 
         public static void PlayMissSound()
         {
-            if (usingCustomHitsounds)
+            if (usingCustomMissSounds)
             {
                 if (CustomHitSounds.hitsoundMode.Value != HitsoundMode.Normal) missGroup.stop();
                 PlaySoundInternal(ref missSounds, missGroup, out _);

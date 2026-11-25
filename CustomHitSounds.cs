@@ -25,7 +25,7 @@ namespace CustomHitSounds
     {
         public const string PLUGIN_GUID = "com.stefyfresh.CustomHitSounds";
         public const string PLUGIN_NAME = "Custom Hit Sounds";
-        public const string PLUGIN_VERSION = "1.1.2";
+        public const string PLUGIN_VERSION = "1.1.3";
         internal static new ManualLogSource Logger;
         public static RhythmTracker sfxTracker;
         public static string hitsoundFolder;
@@ -35,6 +35,7 @@ namespace CustomHitSounds
         public static ConfigEntry<bool> changePitch;
         public static ConfigEntry<bool> hitsoundsNeedASIO;
         public static ConfigEntry<string> assistHitsound;
+        public static ConfigEntry<string> missConfig;
 
 
         private void Awake()
@@ -76,7 +77,7 @@ namespace CustomHitSounds
                 "General",
                 "Assist Mode Custom Hitsound",
                 string.Empty,
-                "Sets the custom hitsound that should automatically be enabled when assist mode is used. Leave blank to disable this feature.\nAn invalid name will be treated as disabled. The name is case sensitive."
+                "Sets the custom hitsound that should automatically be enabled when assist mode is used. Leave blank to disable this feature.\nAn invalid name will be treated as disabled."
             );
 
             hitsoundsNeedASIO = Config.Bind(
@@ -84,6 +85,13 @@ namespace CustomHitSounds
                 "Require ASIO For Hitsounds",
                 false,
                 "Disables hitsounds when ASIO is disabled in the main audio settings. This is designed for situations where you may not always want to use hitsounds depending on if you are using low latency ASIO or not.\nThis setting does not affect assist mode."
+            );
+
+            missConfig = Config.Bind(
+                "General",
+                "Miss Sound Config",
+                string.Empty,
+                "The name of a config that will ALWAYS be used as your miss sound no matter what hitsound config you have selected.\nThis allows you to also use custom miss sounds with the base-game hitsounds and with silent hitsounds (or with ASIO off when that config is enabled)."
             );
 
             // Update FMOD parameter when setting changed
