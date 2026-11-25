@@ -108,6 +108,13 @@ Disables hitsounds when ASIO is disabled in the main UNBEATABLE audio settings.
 This allows you to only activate hitsounds if you are using low latency ASIO mode and not when you are using regular WASAPI.
 This setting does not affect assist mode.
 
+### Miss Sound Config
+
+String
+
+The name of a config that will ALWAYS be used as your miss sound no matter what hitsound config you have selected.
+This allows you to also use custom miss sounds with the base-game hitsounds and with silent hitsounds (or with ASIO off when that config is enabled).
+
 ## Mod Installation Instructions
 
 For installation instructions, refer to my mod installation guide here:
