@@ -120,7 +120,7 @@ namespace CustomHitSounds
 
                 bool forcedCustomMiss = false;
                 HitsoundConfig missConfig = null;
-                if (CustomHitSounds.missConfig.Value != string.Empty && configs.TryGetValue(CustomHitSounds.missConfig.Value.ToUpper(), out missConfig) && missConfig != null) forcedCustomMiss = true;
+                if (CustomHitSounds.missConfig.Value != string.Empty && configs.TryGetValue(CustomHitSounds.missConfig.Value.Trim().ToUpper(), out missConfig) && missConfig != null) forcedCustomMiss = true;
 
                 // Assist mode custom hitsound
                 if (FileStorage.beatmapOptions.useAssistMode && !CustomHitSounds.assistHitsound.Value.IsNullOrWhiteSpace()) currentConfigName = CustomHitSounds.assistHitsound.Value.Trim();
